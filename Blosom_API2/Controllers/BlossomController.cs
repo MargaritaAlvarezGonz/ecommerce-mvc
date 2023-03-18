@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Blosom_API2.Data;
+using Blosom_API2.Models;
 using Blosom_API2.Repository.IRepository;
 using Blossom_API.Data;
 using Blossom_API.Models;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace Blossom_API.Controllers
 {
@@ -18,44 +20,76 @@ namespace Blossom_API.Controllers
         private readonly ILogger<BlossomController> _logger;
         private readonly IBlossomRepository _blossomRepo;
         private readonly IMapper _mapper;
+        protected APIResponse _response;
         public BlossomController(ILogger<BlossomController> logger,IBlossomRepository blossomRepo, IMapper mapper ) 
         {
             _logger = logger;
             _blossomRepo = blossomRepo;
             _mapper = mapper;
+            _response = new ();
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<BlossomDto>>> GetBlossom()
+        public async Task<ActionResult<APIResponse>> GetBlossom()
         {
-            _logger.LogInformation("See all products");
+            try
+            {
+                _logger.LogInformation("See all products");
 
-            IEnumerable<Blossom> blossomList = await _blossomRepo.GetAll();
-            
-            return Ok(_mapper.Map<IEnumerable<BlossomDto>>(blossomList));
+                IEnumerable<Blossom> blossomList = await _blossomRepo.GetAll();
+
+                _response.Result = _mapper.Map<IEnumerable<BlossomDto>>(blossomList);
+                _response.statusCode = HttpStatusCode.OK;
+
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsExitoso = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
         }
 
         [HttpGet("id", Name = "GetBlossomProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<BlossomDto>> GetBlossom(int id)
+        public async Task<ActionResult<APIResponse>> GetBlossom(int id)
         {
-            if (id == 0)
+            try
             {
-                _logger.LogError("error when bringing the product in with the id" + id);
-                return BadRequest();
-            }
-            //var blossom = BlossomStore.blossomList.FirstOrDefault(v => v.Id == id);
-            var blossom = await _blossomRepo.Get(v => v.Id == id);
+                if (id == 0)
+                {
+                    _logger.LogError("error when bringing the product in with the id" + id);
+                    _response.statusCode=HttpStatusCode.BadRequest;
+                    _response.IsExitoso=false;
+                    return BadRequest(_response);
+                }
+                //var blossom = BlossomStore.blossomList.FirstOrDefault(v => v.Id == id);
+                var blossom = await _blossomRepo.Get(v => v.Id == id);
 
-            if (blossom == null)
+                if (blossom == null)
+                {
+                    _response.statusCode = HttpStatusCode.NotFound;
+                    _response.IsExitoso=false;
+                    return NotFound(_response);
+                }
+
+                _response.Result = _mapper.Map<BlossomDto>(blossom);
+                _response.statusCode = HttpStatusCode.OK;
+                return Ok(_response);
+
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+
+                _response.IsExitoso=false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
             }
 
-            return Ok(_mapper.Map<BlossomDto>(blossom));
+            return _response;         
 
         }
 
@@ -64,28 +98,41 @@ namespace Blossom_API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<ActionResult<BlossomDto>> PostProduct([FromBody] BlossomCreateDto createDto)
+        public async Task<ActionResult<APIResponse>> PostProduct([FromBody] BlossomCreateDto createDto)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-            if (await _blossomRepo.Get(v => v.Name.ToLower() == createDto.Name.ToLower()) != null)
-            {
-                ModelState.AddModelError("NameExist", "The product with that name already exists");
-                return BadRequest(ModelState);
-            }
-            if (createDto == null)
-            {
-                return BadRequest(createDto);
-            }
-            
-            Blossom model = _mapper.Map<Blossom>(createDto);
-            
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _blossomRepo.Get(v => v.Name.ToLower() == createDto.Name.ToLower()) != null)
+                {
+                    ModelState.AddModelError("NameExist", "The product with that name already exists");
+                    return BadRequest(ModelState);
+                }
+                if (createDto == null)
+                {
+                    return BadRequest(createDto);
+                }
 
-            await _blossomRepo.Post(model);
-            
-            return CreatedAtRoute("GetBlossomProduct", new { id = model.Id }, model);
+                Blossom model = _mapper.Map<Blossom>(createDto);
+
+                model.DateCreated = DateTime.Now;
+                model.DateUpdated = DateTime.Now;
+                await _blossomRepo.Post(model);
+                _response.Result = model;
+                _response.statusCode = HttpStatusCode.Created;
+
+                return CreatedAtRoute("GetBlossomProduct", new { id = model.Id }, _response);
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsExitoso = false;
+                _response.ErrorMessages = new List<string>() {ex.ToString() };
+            }
+            return _response;
         }
 
         [HttpDelete("{id:int}")]
@@ -94,19 +141,34 @@ namespace Blossom_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            if (id == 0)
+            try
             {
-                return BadRequest();
-            }
-            var blossom = await _blossomRepo.Get(v => v.Id == id);
-            if (blossom == null)
-            {
-                return NotFound();
-            }
-            _blossomRepo.Delete(blossom);
-            
+                if (id == 0)
+                {
+                    _response.IsExitoso = false;
+                    _response.statusCode = HttpStatusCode.BadRequest;
+                    return BadRequest(_response);
+                }
+                var blossom = await _blossomRepo.Get(v => v.Id == id);
+                if (blossom == null)
+                {
+                    _response.IsExitoso=false;
+                    _response.statusCode = HttpStatusCode.NotFound;
+                    return NotFound(_response);
+                }
+                await _blossomRepo.Delete(blossom);
 
-            return NoContent();
+                _response.statusCode = HttpStatusCode.NoContent;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsExitoso = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+                
+            }
+            return BadRequest(_response);
+            
         }
 
         [HttpPut("{id:int}")]
@@ -116,15 +178,17 @@ namespace Blossom_API.Controllers
         {
             if (updateDto == null || id!= updateDto.Id)
             {
-                return BadRequest();
+                _response.IsExitoso=!false;
+                _response.statusCode=HttpStatusCode.BadRequest;
+                return BadRequest(_response);
             }
             
             Blossom model = _mapper.Map<Blossom>(updateDto);
             
-            _blossomRepo.Update(model);
+            await _blossomRepo.Update(model);
+            _response.statusCode = HttpStatusCode.NoContent;
             
-
-            return NoContent();
+            return Ok(_response);
         }
 
         [HttpPatch("{id:int}")]
@@ -151,9 +215,11 @@ namespace Blossom_API.Controllers
 
             Blossom model = _mapper.Map<Blossom>(blossomDto);
             
-            _blossomRepo.Update(model);
+            await _blossomRepo.Update(model);
+            _response.statusCode = HttpStatusCode.NoContent;
+
             
-            return NoContent();
+            return Ok(_response);
 
         }
     }
