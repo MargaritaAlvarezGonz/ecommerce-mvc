@@ -16,7 +16,7 @@ namespace Blossom_Web.Services
             _blossomUrl = configuration.GetValue<string>("ServiceUrls:API_URL");
         }
 
-        public Task<T> Ceate<T>(BlossomCreateDto dto)
+        public Task<T>Ceate<T>(BlossomCreateDto dto)
         {
             return SendAsync<T>(new APIRequest()
             {
@@ -27,7 +27,7 @@ namespace Blossom_Web.Services
             });
         }
 
-        public Task<T> Delete<T>(int id)
+        public Task<T>Delete<T>(int id)
         {
             return SendAsync<T>(new APIRequest()
             {
@@ -37,7 +37,7 @@ namespace Blossom_Web.Services
             });
         }
 
-        public Task<T> Get<T>(int id)
+        public Task<T>Get<T>(int id)
         {
             return SendAsync<T>(new APIRequest()
             {
@@ -47,7 +47,7 @@ namespace Blossom_Web.Services
             });
         }
 
-        public Task<T> GetAll<T>()
+        public Task<T>GetAll<T>()
         {
             return SendAsync<T>(new APIRequest()
             {
@@ -57,7 +57,7 @@ namespace Blossom_Web.Services
             });
         }
 
-        public Task<T> Update<T>(BlossomUpdateDto dto)
+        public Task<T>Update<T>(BlossomUpdateDto dto)
         {
             return SendAsync<T>(new APIRequest()
             {

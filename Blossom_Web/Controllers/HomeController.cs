@@ -1,5 +1,10 @@
-﻿using Blossom_Web.Models;
+﻿using AutoMapper;
+using Blossom_Web.Models;
+using Blossom_Web.Models.Dto;
+using Blossom_Web.Models.Models;
+using Blossom_Web.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace Blossom_Web.Controllers
@@ -7,15 +12,26 @@ namespace Blossom_Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBlossomService _blossomService;
+        private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IBlossomService blossomService, IMapper mapper)
         {
             _logger = logger;
+            _blossomService = blossomService;
+            _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
         {
-            return View();
+            List<BlossomDto> blossomList = new();
+            var response = await _blossomService.GetAll<APIResponse>();
+            if(response != null && response.IsExitoso) 
+            {
+                blossomList = JsonConvert.DeserializeObject<List<BlossomDto>>(Convert.ToString(response.Result));
+            
+            }
+            return View(blossomList);
         }
 
         public IActionResult Privacy()

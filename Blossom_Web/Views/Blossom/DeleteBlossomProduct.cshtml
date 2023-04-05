@@ -9,8 +9,6 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <input hidden asp-for="Id" />
-
         <div class="row">
             <h2 class="text-info">Delete product</h2>
         </div>
@@ -19,14 +17,14 @@
             <div class="col-md-6">
                 <label class="form-label">Product Name</label>
                 <input asp-for="Name" disabled class="form-control" />
-                
+               
             </div>
         </div>
 
         <div class="row mt-2">
             <div class="col-md-6">
                 <label class="form-label">Price</label>
-                <input asp-for="Price" disabled class="form-control" />
+                <input asp-for="Price" disabled  class="form-control" />
                 
             </div>
         </div>
@@ -43,7 +41,7 @@
             <div class="col-md-6">
                 <label class="form-label">Brand</label>
                 <input asp-for="Brand" disabled class="form-control" />
-                <
+                
             </div>
         </div>
 
@@ -57,7 +55,7 @@
 
         <div class="d-grid gap-2 d-md-block mt-2">
             <button type="submit" class="btn btn-danger">Delete</button>
-            <a asp-controller="Blossom" asp-action="IndexBlossom" class="btn btn-succes">Back</a>
+            <a asp-controller="Blossom" asp-action="IndexBlossom" class="btn btn-success">Back</a>
 
         </div>
     </div>

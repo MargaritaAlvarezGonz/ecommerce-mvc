@@ -41,7 +41,8 @@ namespace Blossom_Web.Controllers
             if (ModelState.IsValid)
             {
                 var response =await _blossomService.Ceate<APIResponse>(model);
-                if (response != null && response.IsExitoso) { 
+                if (response != null && response.IsExitoso) {
+                    TempData["successful"] = "Product created successfully";
                     return RedirectToAction(nameof(IndexBlossom));
                 }
             }
@@ -54,6 +55,7 @@ namespace Blossom_Web.Controllers
             {
                 if (response != null && response.IsExitoso)
                 {
+                    TempData["successful"] = "Product update successfully";
                     BlossomDto modelo = JsonConvert.DeserializeObject<BlossomDto>(Convert.ToString(response.Result));
                     return View(_mapper.Map<BlossomUpdateDto>(modelo));
                 }
@@ -92,16 +94,17 @@ namespace Blossom_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteBlossomProduct(BlossomDto model)
-        {
-           
+        public async Task<IActionResult>DeleteBlossomProduct(BlossomDto model)
+        {          
             
                 var response = await _blossomService.Delete<APIResponse>(model.Id);
                 if (response != null && response.IsExitoso)
                 {
-                    return RedirectToAction(nameof(IndexBlossom));
+                TempData["successful"] = "Product delete successfully";
+                return RedirectToAction(nameof(IndexBlossom));
                 }
-            
+                TempData["error"] = "Error occurred";
+
             return View(model);
         }
     }
