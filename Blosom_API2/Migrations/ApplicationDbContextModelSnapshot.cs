@@ -22,6 +22,55 @@ namespace BlosomAPI2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Blosom_API2.Models.NumberBlossom", b =>
+                {
+                    b.Property<int>("BlossomNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BlossomId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BlossomNo");
+
+                    b.HasIndex("BlossomId");
+
+                    b.ToTable("NumberBlossoms");
+                });
+
+            modelBuilder.Entity("Blosom_API2.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Rol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Blossom_API.Models.Blossom", b =>
                 {
                     b.Property<int>("Id")
@@ -31,7 +80,6 @@ namespace BlosomAPI2.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Brand")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
@@ -41,18 +89,15 @@ namespace BlosomAPI2.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("ProductDescrip")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Stock")
@@ -67,8 +112,8 @@ namespace BlosomAPI2.Migrations
                         {
                             Id = 1,
                             Brand = "Vegan World",
-                            DateCreated = new DateTime(2023, 3, 16, 21, 13, 2, 172, DateTimeKind.Local).AddTicks(7028),
-                            DateUpdated = new DateTime(2023, 3, 16, 21, 13, 2, 172, DateTimeKind.Local).AddTicks(7082),
+                            DateCreated = new DateTime(2023, 3, 20, 10, 31, 49, 245, DateTimeKind.Local).AddTicks(6435),
+                            DateUpdated = new DateTime(2023, 3, 20, 10, 31, 49, 245, DateTimeKind.Local).AddTicks(6490),
                             ImageUrl = "",
                             Name = "CC Organic Cream",
                             Price = 10.0,
@@ -79,14 +124,25 @@ namespace BlosomAPI2.Migrations
                         {
                             Id = 2,
                             Brand = "Terpenic",
-                            DateCreated = new DateTime(2023, 3, 16, 21, 13, 2, 172, DateTimeKind.Local).AddTicks(7087),
-                            DateUpdated = new DateTime(2023, 3, 16, 21, 13, 2, 172, DateTimeKind.Local).AddTicks(7089),
+                            DateCreated = new DateTime(2023, 3, 20, 10, 31, 49, 245, DateTimeKind.Local).AddTicks(6495),
+                            DateUpdated = new DateTime(2023, 3, 20, 10, 31, 49, 245, DateTimeKind.Local).AddTicks(6497),
                             ImageUrl = "",
                             Name = "Essential oil lavender",
                             Price = 30.0,
                             ProductDescrip = "Product 100% natural",
                             Stock = 80
                         });
+                });
+
+            modelBuilder.Entity("Blosom_API2.Models.NumberBlossom", b =>
+                {
+                    b.HasOne("Blossom_API.Models.Blossom", "Blossom")
+                        .WithMany()
+                        .HasForeignKey("BlossomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blossom");
                 });
 #pragma warning restore 612, 618
         }

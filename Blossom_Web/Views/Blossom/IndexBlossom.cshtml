@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Blossom_Web.Models.Dto.BlossomDto>
+@{
+    ViewData["Title"] = "IndexBlossom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container p-4 border">
+    <div class="row pb-2">
+        <div class="col">
+            <h1 class="text-primary">Product List</h1>
+        </div>
+                   
+        <div class="col text-end pt-1">
+            <a asp-controller="Blossom" asp-action="PostBlossomProduct" class="btn btn-outline-primary"><i class="bi bi-plus-square-fill"></i>Post product</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@((item.Price).ToString("c"))</td>
+                    <td>@item.Brand</td>
+                    <td>@item.ProductDescrip</td>
+                    <td>
+                        <a asp-controller="Blossom" asp-action="UpdateBlossomProduct" asp-route-blossomId="@item.Id" class="btn btn-succes"><i class="bi bi-pencil-square"></i></a>
+                        <a asp-controller="Blossom" asp-action="DeleteBlossomProduct" asp-route-blossomId="@item.Id" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a>
+
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+
+</div>
+

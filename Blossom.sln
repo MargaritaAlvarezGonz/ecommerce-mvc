@@ -5,6 +5,13 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blosom_API2", "Blosom_API2\Blosom_API2.csproj", "{627C67C4-8947-4CFA-A45E-8DB43BBBD13D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blossom_Web", "Blossom_Web\Blossom_Web.csproj", "{AD84D942-F566-4094-B8AC-CFDE6DC11EB2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C7BE1EDE-AE6C-4DAF-A89F-B1A29ABEC922} = {C7BE1EDE-AE6C-4DAF-A89F-B1A29ABEC922}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blossom_Utility", "Blossom_Utility\Blossom_Utility.csproj", "{C7BE1EDE-AE6C-4DAF-A89F-B1A29ABEC922}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,14 @@ Global
 		{627C67C4-8947-4CFA-A45E-8DB43BBBD13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{627C67C4-8947-4CFA-A45E-8DB43BBBD13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{627C67C4-8947-4CFA-A45E-8DB43BBBD13D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD84D942-F566-4094-B8AC-CFDE6DC11EB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD84D942-F566-4094-B8AC-CFDE6DC11EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD84D942-F566-4094-B8AC-CFDE6DC11EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD84D942-F566-4094-B8AC-CFDE6DC11EB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7BE1EDE-AE6C-4DAF-A89F-B1A29ABEC922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7BE1EDE-AE6C-4DAF-A89F-B1A29ABEC922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7BE1EDE-AE6C-4DAF-A89F-B1A29ABEC922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7BE1EDE-AE6C-4DAF-A89F-B1A29ABEC922}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

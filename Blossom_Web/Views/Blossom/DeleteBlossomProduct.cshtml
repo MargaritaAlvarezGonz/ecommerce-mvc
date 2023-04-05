@@ -1,0 +1,70 @@
+﻿@model Blossom_Web.Models.Dto.BlossomDto
+@{
+    ViewData["Title"] = "DeleteBlossomProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post" asp-action="DeleteBlossomProduct">
+    <div class="container border p-3">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <input hidden asp-for="Id" />
+
+        <div class="row">
+            <h2 class="text-info">Delete product</h2>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <label class="form-label">Product Name</label>
+                <input asp-for="Name" disabled class="form-control" />
+                
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <label class="form-label">Price</label>
+                <input asp-for="Price" disabled class="form-control" />
+                
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <label class="form-label">Description</label>
+                <textarea asp-for="ProductDescrip" disabled class="form-control"> </textarea>
+                
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <label class="form-label">Brand</label>
+                <input asp-for="Brand" disabled class="form-control" />
+                <
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <label class="form-label">Image</label>
+                <input asp-for="ImageUrl" disabled class="form-control" />
+                
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-block mt-2">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-controller="Blossom" asp-action="IndexBlossom" class="btn btn-succes">Back</a>
+
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

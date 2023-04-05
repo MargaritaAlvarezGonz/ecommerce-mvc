@@ -1,4 +1,5 @@
-﻿using Blossom_API.Models;
+﻿using Blosom_API2.Models;
+using Blossom_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -11,7 +12,9 @@ namespace Blosom_API2.Data
             
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Blossom> Blossoms { get; set; }
+        public DbSet<NumberBlossom> NumberBlossoms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {

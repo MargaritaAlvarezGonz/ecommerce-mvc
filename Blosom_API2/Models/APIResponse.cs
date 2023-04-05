@@ -4,6 +4,10 @@ namespace Blosom_API2.Models
 {
     public class APIResponse
     {
+        public APIResponse() 
+        {
+            ErrorMessages = new List<string>();
+        }
         public HttpStatusCode statusCode { get; set; }
 
         public bool IsExitoso { get; set; } = true;

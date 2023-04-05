@@ -22,6 +22,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 builder.Services.AddScoped<IBlossomRepository, BlossomRepository>();
+builder.Services.AddScoped<INumberBlossomRepository, NumberBlossomRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
