@@ -55,7 +55,7 @@ namespace Blossom_Web.Controllers
             {
                 if (response != null && response.IsExitoso)
                 {
-                    TempData["successful"] = "Product update successfully";
+                   
                     BlossomDto modelo = JsonConvert.DeserializeObject<BlossomDto>(Convert.ToString(response.Result));
                     return View(_mapper.Map<BlossomUpdateDto>(modelo));
                 }
@@ -71,7 +71,9 @@ namespace Blossom_Web.Controllers
                 {
                     var response = await _blossomService.Update<APIResponse>(model);
                     if (response != null && response.IsExitoso)
+
                     {
+                        TempData["successful"] = "Product update successfully";
                         return RedirectToAction(nameof(IndexBlossom));
                     }
                 }
