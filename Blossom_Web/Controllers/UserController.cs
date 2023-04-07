@@ -1,7 +1,10 @@
-﻿using Blossom_Web.Models.Dto;
+﻿using Blossom_Utility;
+using Blossom_Web.Models.Dto;
 using Blossom_Web.Models.Models;
 using Blossom_Web.Services.IServices;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Blossom_Web.Controllers
 {
@@ -21,9 +24,20 @@ namespace Blossom_Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Login(LoginRequestDto model) 
+        public async Task<IActionResult> Login(LoginRequestDto model) 
         {
-            return View();
+            var response = await _userService.Login<APIResponse>(model);
+            if (response != null && response.IsExitoso == true)
+            {
+                LoginResponseDto loginResponse = JsonConvert.DeserializeObject<LoginResponseDto>(Convert.ToString(response.Result));
+                HttpContext.Session.SetString(DS.SessionToken, loginResponse.Token);
+                return RedirectToAction("Index", "Home");
+            }
+            else 
+            {
+                ModelState.AddModelError("ErrorMessages", response.ErrorMessages.FirstOrDefault());
+                return View(model);
+            }
         }
 
         public IActionResult Register() 
@@ -43,9 +57,11 @@ namespace Blossom_Web.Controllers
             return View();
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return View();
+            await HttpContext.SignOutAsync();
+            HttpContext.Session.SetString(DS.SessionToken, "");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult AccesDenied()

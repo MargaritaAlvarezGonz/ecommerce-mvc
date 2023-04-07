@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Blossom_Utility;
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContestAcc
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,6 +31,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Blossom" asp-action="IndexBlossom">Productos</a>
                         </li>
+                    </ul>
+                    
+                    <ul class="navbar-nav d-flex">
+                        @if (httpContestAcc.HttpContext.Session.GetString(DS.SessionToken) != null &&  
+                        httpContestAcc.HttpContext.Session.GetString(DS.SessionToken.ToString().Length >0))
+                        {
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else 
+                       {
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                            </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+                        </li>
+                       }
+                        
                     </ul>
                 </div>
             </div>
