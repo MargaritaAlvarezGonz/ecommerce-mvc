@@ -14,8 +14,9 @@ using System.Net;
 
 namespace Blossom_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class NumberBlossomController : ControllerBase
     {
         private readonly ILogger<NumberBlossomController> _logger;

@@ -4,6 +4,7 @@ using Blosom_API2.Data;
 using Blosom_API2.Repository;
 using Blosom_API2.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -73,6 +74,22 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IBlossomRepository, BlossomRepository>();
 builder.Services.AddScoped<INumberBlossomRepository, NumberBlossomRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddApiVersioning(options => 
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+});
+
+builder.Services.AddVersionedApiExplorer(options => 
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+}
+
+)
+
 
 var app = builder.Build();
 
