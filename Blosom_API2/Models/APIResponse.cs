@@ -15,5 +15,7 @@ namespace Blosom_API2.Models
         public List<string> ErrorMessages { get; set; }
         public object Result { get; set; }
 
+        public int TotalPages { get; set; }
+
     }
 }

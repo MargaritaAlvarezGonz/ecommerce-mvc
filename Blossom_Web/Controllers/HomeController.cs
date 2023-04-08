@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Blossom_Utility;
 using Blossom_Web.Models;
 using Blossom_Web.Models.Dto;
 using Blossom_Web.Models.Models;
 using Blossom_Web.Services.IServices;
+using Blossom_Web.Views.Blossom;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -22,16 +24,29 @@ namespace Blossom_Web.Controllers
             _mapper = mapper;
         }
 
-        public async Task <IActionResult> Index()
+        public async Task <IActionResult> Index(int pageNumber=1)
         {
             List<BlossomDto> blossomList = new();
-            var response = await _blossomService.GetAll<APIResponse>();
+            BlossomPagesViewModel blossomVM= new BlossomPagesViewModel();
+
+            if (pageNumber < 1) pageNumber = 1;
+
+            var response = await _blossomService.GetAllPaginated<APIResponse>(HttpContext.Session.GetString(DS.SessionToken), pageNumber, 4);
             if(response != null && response.IsExitoso) 
             {
                 blossomList = JsonConvert.DeserializeObject<List<BlossomDto>>(Convert.ToString(response.Result));
+                blossomVM = new BlossomPagesViewModel()
+                {
+                    BlossomList = blossomList,
+                    PageNumber = pageNumber,
+                    TotaPages = JsonConvert.DeserializeObject<int>(Convert.ToString(response.TotalPages))
+                };
+
+                if (pageNumber > 1) blossomVM.Previous = "";
+                if (blossomVM.TotaPages <= pageNumber) blossomVM.Next = "disabled";
             
             }
-            return View(blossomList);
+            return View(blossomVM);
         }
 
         public IActionResult Privacy()

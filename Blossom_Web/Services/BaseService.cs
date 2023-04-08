@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Text;
 using Blossom_Utility;
 using System.Net.Http.Headers;
+using System.Web;
 
 namespace Blossom_Web.Services
 {
@@ -26,7 +27,23 @@ namespace Blossom_Web.Services
                 var cliente = _httpClient.CreateClient("BlossomAPI");
                 HttpRequestMessage message = new HttpRequestMessage();
                 message.Headers.Add("Accept", "application/json");
-                message.RequestUri= new Uri(apiRequest.Url);
+
+                if(apiRequest.Parameters == null)
+                {
+                    message.RequestUri = new Uri(apiRequest.Url);
+                }
+                else
+                {
+                    var builder = new UriBuilder(apiRequest.Url);
+                    var query = HttpUtility.ParseQueryString(builder.Query);
+                    query["PageNumber"] = apiRequest.Parameters.PageNumber.ToString();
+                    query["PageSize"] = apiRequest.Parameters.PageSize.ToString();
+                    builder.Query = query.ToString();
+                    string url = builder.ToString();
+                    message.RequestUri = new Uri(url);
+                }
+
+                
 
                 if (apiRequest.Data !=null)
                 {

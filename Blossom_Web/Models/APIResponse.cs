@@ -10,6 +10,7 @@ namespace Blossom_Web.Models.Models
 
         public List<string> ErrorMessages { get; set; }
         public object Result { get; set; }
+        public int TotalPages { get; set; }
 
     }
 }

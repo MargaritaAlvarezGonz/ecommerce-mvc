@@ -61,6 +61,18 @@ namespace Blossom_Web.Services
             });
         }
 
+        public Task<T> GetAllPaginated<T>(string token, int pageNumber = 1, int pageSize = 4)
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                APIType = DS.APIType.GET,
+                Url = _blossomUrl + "/api/v1/Blossom/BlossomPaginated",
+                Token = token,
+                Parameters= new Parameters() { PageNumber = pageNumber,PageSize = pageSize }
+
+            });
+        }
+
         public Task<T>Update<T>(BlossomUpdateDto dto, string token)
         {
             return SendAsync<T>(new APIRequest()
