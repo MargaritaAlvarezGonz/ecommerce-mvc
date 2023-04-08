@@ -22,7 +22,7 @@ namespace Blossom_Web.Services
             {
                 APIType = DS.APIType.POST,
                 Data = dto,
-                Url = _blossomUrl+"/api/Blossom",
+                Url = _blossomUrl+"/api/v1/Blossom",
                 Token = token
 
             });
@@ -33,7 +33,7 @@ namespace Blossom_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 APIType = DS.APIType.DELETE,
-                Url = _blossomUrl + "/api/Blossom/" + id,
+                Url = _blossomUrl + "/api/v1/Blossom/" + id,
                 Token = token
 
             });
@@ -44,7 +44,7 @@ namespace Blossom_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 APIType = DS.APIType.GET,
-                Url = _blossomUrl + "/api/Blossom/" + id,
+                Url = _blossomUrl + "/api/v1/Blossom/" + id,
                 Token = token
 
             });
@@ -55,7 +55,7 @@ namespace Blossom_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 APIType = DS.APIType.GET,
-                Url = _blossomUrl + "/api/Blossom",
+                Url = _blossomUrl + "/api/v1/Blossom",
                 Token = token
 
             });
@@ -67,7 +67,7 @@ namespace Blossom_Web.Services
             {
                 APIType = DS.APIType.PUT,
                 Data = dto,
-                Url = _blossomUrl + "/api/Blossom/"+dto.Id,
+                Url = _blossomUrl + "/api/v1/Blossom/"+dto.Id,
                 Token = token
 
             });

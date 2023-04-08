@@ -21,7 +21,7 @@ namespace Blossom_Web.Services
             {
                 APIType = DS.APIType.POST,
                 Data = dto,
-                Url = _blossomUrl + "/api/user/login"
+                Url = _blossomUrl + "/api/v1/user/login"
             });
         }
 
@@ -31,7 +31,7 @@ namespace Blossom_Web.Services
             {
                 APIType = DS.APIType.POST,
                 Data = dto,
-                Url = _blossomUrl + "/api/user/register"
+                Url = _blossomUrl + "/api/v1/user/register"
             });
         }
     }

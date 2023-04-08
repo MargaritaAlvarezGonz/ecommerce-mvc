@@ -9,12 +9,12 @@ namespace Blosom_API2.Controllers
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersionNeutral]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
         private APIResponse _response;
-        public UserController(IUserRepository userRepo) 
+        public UserController(IUserRepository userRepo)
         {
             _userRepo = userRepo;
             _response = new();
@@ -24,7 +24,7 @@ namespace Blosom_API2.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO model)
         {
             var loginResponse = await _userRepo.Login(model);
-            if (loginResponse.User== null || string.IsNullOrEmpty(loginResponse.Token))
+            if (loginResponse.User == null || string.IsNullOrEmpty(loginResponse.Token))
             {
                 _response.statusCode = HttpStatusCode.BadRequest;
                 _response.IsExitoso = false;
@@ -32,7 +32,7 @@ namespace Blosom_API2.Controllers
                 return BadRequest(_response);
             }
             _response.IsExitoso = true;
-            _response.statusCode=HttpStatusCode.OK;
+            _response.statusCode = HttpStatusCode.OK;
             _response.Result = loginResponse;
             return Ok(_response);
         }
@@ -50,14 +50,14 @@ namespace Blosom_API2.Controllers
                 return BadRequest(_response);
             }
             var user = await _userRepo.Register(model);
-            if (user ==null)
+            if (user == null)
             {
                 _response.statusCode = HttpStatusCode.BadRequest;
                 _response.IsExitoso = false;
                 _response.ErrorMessages.Add("Error registering user!");
                 return BadRequest(_response);
             }
-            _response.statusCode=HttpStatusCode.OK;
+            _response.statusCode = HttpStatusCode.OK;
             _response.IsExitoso = true;
             return Ok(_response);
         }

@@ -18,31 +18,38 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => {
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+{
+    Description = "Ingresar Bearer [space] tuToken \r\n\r\n " +
+                  "Ejemplo: Bearer 123456abcder",
+    Name = "Authorization",
+    In = ParameterLocation.Header,
+    Scheme = "Bearer"
+});
+options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+{
     {
-        Description = "Ingresar Bearer [space] tuToken \r\n\r\n " +
-                      "Ejemplo: Bearer 123456abcder",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Scheme = "Bearer"
-    });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-    {
+        new OpenApiSecurityScheme
         {
-            new OpenApiSecurityScheme
+            Reference = new OpenApiReference
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id= "Bearer"
-                },
-                Scheme = "oauth2",
-                Name="Bearer",
-                In = ParameterLocation.Header
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
             },
-            new List<string>()
-        }
-    });
+            Scheme = "oauth2",
+            Name = "Bearer",
+            In = ParameterLocation.Header
+        },
+        new List<string>()
+    }
+});
+options.SwaggerDoc("v1", new OpenApiInfo
+{
+    Version = "v1",
+    Title = "Blossom v1",
+    Description= "API para Karessi"
+});
+
 });
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
@@ -82,13 +89,13 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 
-builder.Services.AddVersionedApiExplorer(options => 
+builder.Services.AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
-}
+});
 
-)
+
 
 
 var app = builder.Build();
@@ -97,6 +104,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Blossom");
+    });
     app.UseSwaggerUI();
 }
 

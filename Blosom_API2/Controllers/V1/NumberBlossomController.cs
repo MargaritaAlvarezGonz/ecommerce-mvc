@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace Blossom_API.Controllers
+namespace Blosom_API2.Controllers.V1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -22,12 +22,12 @@ namespace Blossom_API.Controllers
         private readonly IBlossomRepository _blossomRepo;
         private readonly IMapper _mapper;
         protected APIResponse _response;
-        public BlossomController(ILogger<BlossomController> logger,IBlossomRepository blossomRepo, IMapper mapper ) 
+        public BlossomController(ILogger<BlossomController> logger, IBlossomRepository blossomRepo, IMapper mapper)
         {
             _logger = logger;
             _blossomRepo = blossomRepo;
             _mapper = mapper;
-            _response = new ();
+            _response = new();
         }
 
         [HttpGet]
@@ -64,8 +64,8 @@ namespace Blossom_API.Controllers
                 if (id == 0)
                 {
                     _logger.LogError("error when bringing the product in with the id" + id);
-                    _response.statusCode=HttpStatusCode.BadRequest;
-                    _response.IsExitoso=false;
+                    _response.statusCode = HttpStatusCode.BadRequest;
+                    _response.IsExitoso = false;
                     return BadRequest(_response);
                 }
                 //var blossom = BlossomStore.blossomList.FirstOrDefault(v => v.Id == id);
@@ -74,7 +74,7 @@ namespace Blossom_API.Controllers
                 if (blossom == null)
                 {
                     _response.statusCode = HttpStatusCode.NotFound;
-                    _response.IsExitoso=false;
+                    _response.IsExitoso = false;
                     return NotFound(_response);
                 }
 
@@ -86,11 +86,11 @@ namespace Blossom_API.Controllers
             catch (Exception ex)
             {
 
-                _response.IsExitoso=false;
+                _response.IsExitoso = false;
                 _response.ErrorMessages = new List<string> { ex.ToString() };
             }
 
-            return _response;         
+            return _response;
 
         }
 
@@ -131,7 +131,7 @@ namespace Blossom_API.Controllers
             {
 
                 _response.IsExitoso = false;
-                _response.ErrorMessages = new List<string>() {ex.ToString() };
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
             return _response;
         }
@@ -153,7 +153,7 @@ namespace Blossom_API.Controllers
                 var blossom = await _blossomRepo.Get(v => v.Id == id);
                 if (blossom == null)
                 {
-                    _response.IsExitoso=false;
+                    _response.IsExitoso = false;
                     _response.statusCode = HttpStatusCode.NotFound;
                     return NotFound(_response);
                 }
@@ -166,10 +166,10 @@ namespace Blossom_API.Controllers
             {
                 _response.IsExitoso = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
-                
+
             }
             return BadRequest(_response);
-            
+
         }
 
         [HttpPut("{id:int}")]
@@ -177,21 +177,21 @@ namespace Blossom_API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] BlossomUpdateDto updateDto)
         {
-            if (updateDto == null || id!= updateDto.Id)
+            if (updateDto == null || id != updateDto.Id)
             {
-                _response.IsExitoso=!false;
-                _response.statusCode=HttpStatusCode.BadRequest;
+                _response.IsExitoso = !false;
+                _response.statusCode = HttpStatusCode.BadRequest;
                 return BadRequest(_response);
             }
-            
+
             Blossom model = _mapper.Map<Blossom>(updateDto);
-            
+
             await _blossomRepo.Update(model);
             _response.statusCode = HttpStatusCode.NoContent;
-            
+
             return Ok(_response);
         }
 
-       
+
     }
 }

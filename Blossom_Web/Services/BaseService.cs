@@ -61,6 +61,8 @@ namespace Blossom_Web.Services
 
                 apiResponse= await cliente.SendAsync(message);
                 var apiContent =await apiResponse.Content.ReadAsStringAsync();
+
+               
                 var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
                 return APIResponse;
             }
