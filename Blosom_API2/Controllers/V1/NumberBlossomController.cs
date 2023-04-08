@@ -13,9 +13,8 @@ using System.Net;
 
 namespace Blosom_API2.Controllers.V1
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    [ApiVersion("1.0")]
     public class BlossomController : ControllerBase
     {
         private readonly ILogger<BlossomController> _logger;
