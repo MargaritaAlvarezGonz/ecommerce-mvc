@@ -9,10 +9,6 @@ namespace Blosom_API2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-<<<<<<< HEAD
-    [ApiVersionNeutral]
-=======
->>>>>>> parent of 6859a3d (added versions)
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
