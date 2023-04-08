@@ -4,6 +4,7 @@ using Blossom_Web.Services.IServices;
 using Newtonsoft.Json;
 using System.Text;
 using Blossom_Utility;
+using System.Net.Http.Headers;
 
 namespace Blossom_Web.Services
 {
@@ -52,6 +53,12 @@ namespace Blossom_Web.Services
                 }
 
                 HttpResponseMessage apiResponse = null;
+
+                if (!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
+
                 apiResponse= await cliente.SendAsync(message);
                 var apiContent =await apiResponse.Content.ReadAsStringAsync();
                 var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);

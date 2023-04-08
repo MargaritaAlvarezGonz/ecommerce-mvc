@@ -4,11 +4,11 @@ namespace Blossom_Web.Services.IServices
 {
     public interface IBlossomService
     {
-        Task<T>GetAll<T>();
-        Task<T>Get<T>(int id);
-        Task<T>Ceate<T>(BlossomCreateDto dto);
+        Task<T>GetAll<T>(string token);
+        Task<T>Get<T>(int id, string token);
+        Task<T>Ceate<T>(BlossomCreateDto dto, string token);
 
-        Task<T>Update<T>(BlossomUpdateDto dto);
-        Task<T>Delete<T>(int id);
+        Task<T>Update<T>(BlossomUpdateDto dto, string token);
+        Task<T>Delete<T>(int id, string token);
     }
 }

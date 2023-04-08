@@ -1,6 +1,8 @@
 using Blossom_Web;
 using Blossom_Web.Services;
 using Blossom_Web.Services.IServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.CodeAnalysis.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,12 +19,21 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => 
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(100);
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                       .AddCookie (options =>
+                        {
+                            options.Cookie.HttpOnly = true;
+                            options.ExpireTimeSpan = TimeSpan.FromMinutes(100);
+                            options.LoginPath = "/User/Login";
+                            options.AccessDeniedPath= "/User/AccesDenied";
+                            options.SlidingExpiration = true;
+                        });
 
 var app = builder.Build();
 
@@ -38,6 +49,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 app.UseSession();

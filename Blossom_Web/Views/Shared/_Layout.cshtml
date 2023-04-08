@@ -1,6 +1,6 @@
 ﻿@using Blossom_Utility;
-@using Microsoft.AspNetCore.Http;
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContestAcc
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAcc
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,8 +34,8 @@
                     </ul>
                     
                     <ul class="navbar-nav d-flex">
-                        @if (httpContestAcc.HttpContext.Session.GetString(DS.SessionToken) != null &&  
-                        httpContestAcc.HttpContext.Session.GetString(DS.SessionToken.ToString().Length >0))
+                        @if (httpContextAcc.HttpContext.Session.GetString(DS.SessionToken) != null  &&
+                        httpContextAcc.HttpContext.Session.GetString(DS.SessionToken).ToString().Length >0)
                         {
                             <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
