@@ -81,25 +81,6 @@ builder.Services.AddScoped<IBlossomRepository, BlossomRepository>();
 builder.Services.AddScoped<INumberBlossomRepository, NumberBlossomRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-<<<<<<< HEAD
-builder.Services.AddApiVersioning(options => 
-{
-    options.AssumeDefaultVersionWhenUnspecified = true;
-    options.DefaultApiVersion = new ApiVersion(1, 0);
-    options.ReportApiVersions = true;
-});
-
-builder.Services.AddVersionedApiExplorer(options =>
-{
-    options.GroupNameFormat = "'v'VVV";
-    options.SubstituteApiVersionInUrl = true;
-});
-
-
-
-
-=======
->>>>>>> parent of 6859a3d (added versions)
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
