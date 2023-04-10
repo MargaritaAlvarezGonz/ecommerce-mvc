@@ -68,7 +68,7 @@ namespace Blossom_Web.Services
                 APIType = DS.APIType.GET,
                 Url = _blossomUrl + "/api/v1/Blossom/BlossomPaginated",
                 Token = token,
-                Parameters= new Parameters() { PageNumber = pageNumber,PageSize = pageSize }
+                Parameters= new Parameters() { PageNumber = pageNumber, PageSize = pageSize }
 
             });
         }

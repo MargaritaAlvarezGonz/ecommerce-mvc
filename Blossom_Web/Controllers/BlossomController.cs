@@ -3,8 +3,10 @@ using Blossom_Utility;
 using Blossom_Web.Models.Dto;
 using Blossom_Web.Models.Models;
 using Blossom_Web.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Data;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Blossom_Web.Controllers
@@ -18,6 +20,8 @@ namespace Blossom_Web.Controllers
             _blossomService = blossomService;
             _mapper = mapper;
         }
+
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult>IndexBlossom()
         {
             List<BlossomDto> blossomList = new();
@@ -30,6 +34,7 @@ namespace Blossom_Web.Controllers
             return View(blossomList);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PostBlossomProduct()
         {
             return View();
@@ -50,6 +55,7 @@ namespace Blossom_Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateBlossomProduct(int blossomId)
         {
             var response = await _blossomService.Get<APIResponse>(blossomId, HttpContext.Session.GetString(DS.SessionToken));
@@ -81,7 +87,7 @@ namespace Blossom_Web.Controllers
                 return View(model);
          }
 
-
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteBlossomProduct(int blossomId)
         {
             var response = await _blossomService.Get<APIResponse>(blossomId, HttpContext.Session.GetString(DS.SessionToken));

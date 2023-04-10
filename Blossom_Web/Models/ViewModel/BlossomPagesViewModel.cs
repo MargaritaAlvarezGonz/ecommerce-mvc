@@ -1,6 +1,6 @@
 ﻿using Blossom_Web.Models.Dto;
 
-namespace Blossom_Web.Views.Blossom
+namespace Blossom_Web.Models.ViewModel
 {
     public class BlossomPagesViewModel
     {
@@ -9,6 +9,6 @@ namespace Blossom_Web.Views.Blossom
 
         public string Previous { get; set; } = "diabled";
         public string Next { get; set; } = "";
-        public IEnumerable<BlossomDto>BlossomList { get; set; }
+        public IEnumerable<BlossomDto> BlossomList { get; set; }
     }
 }

@@ -6,6 +6,8 @@ using System.Text;
 using Blossom_Utility;
 using System.Net.Http.Headers;
 using System.Web;
+using System.Net;
+using System;
 
 namespace Blossom_Web.Services
 {
@@ -79,21 +81,41 @@ namespace Blossom_Web.Services
                 apiResponse= await cliente.SendAsync(message);
                 var apiContent =await apiResponse.Content.ReadAsStringAsync();
 
-               
+                try
+                {
+                    APIResponse response = JsonConvert.DeserializeObject<APIResponse>(apiContent);
+                    if (response != null && (apiResponse.StatusCode == HttpStatusCode.BadRequest
+                                        || apiResponse.StatusCode == HttpStatusCode.NotFound))
+                    {
+                        response.statusCode = HttpStatusCode.BadRequest;
+                        response.IsExitoso = false;
+                        var res = JsonConvert.SerializeObject(response);
+                        var obj = JsonConvert.DeserializeObject<T>(res);
+                        return obj;
+                    }
+                }  
+                
+            
+                catch (Exception ex)
+                {
+                    var errorResponse = JsonConvert.DeserializeObject<T>(apiContent);
+                    return errorResponse;
+                }
+
                 var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
                 return APIResponse;
+
             }
             catch (Exception ex)
             {
-
                 var dto = new APIResponse
                 {
                     ErrorMessages = new List<string> { Convert.ToString(ex.Message) },
                     IsExitoso = false
                 };
                 var res = JsonConvert.SerializeObject(dto);
-                var APIResponse = JsonConvert.DeserializeObject<T>(res);
-                return APIResponse;
+                var responseEx = JsonConvert.DeserializeObject<T>(res);
+                return responseEx;
             }
         }
     }

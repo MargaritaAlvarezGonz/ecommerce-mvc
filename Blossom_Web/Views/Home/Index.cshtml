@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components
-@model Blossom_Web.Views.Blossom.BlossomPagesViewModel
+@model Blossom_Web.Models.ViewModel.BlossomPagesViewModel
+
 
 @{
     ViewData["Title"] = "Home Page";
@@ -12,7 +13,7 @@
         <div class="p-4 col-md-12 col-lg-6">
             <div class="row" style="border-radius:20px; border: 1px solid">
                 <div class="col-4">
-                    <img class="d-block w-100 mt-2" style="border-radius:20px;" src="@blossom.ImageUrl" alt="Imagen Villa">
+                    <img class="d-block w-100 mt-2" style="border-radius:20px;" src="@blossom.ImageUrl" alt="Image Product">
                 </div>
                 <div class="col-8">
                     <p class="card-title text-info" style="font-size:xx-large">@blossom.Name</p>

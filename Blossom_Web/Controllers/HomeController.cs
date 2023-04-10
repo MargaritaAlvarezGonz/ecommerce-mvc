@@ -3,8 +3,8 @@ using Blossom_Utility;
 using Blossom_Web.Models;
 using Blossom_Web.Models.Dto;
 using Blossom_Web.Models.Models;
+using Blossom_Web.Models.ViewModel;
 using Blossom_Web.Services.IServices;
-using Blossom_Web.Views.Blossom;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -23,7 +23,6 @@ namespace Blossom_Web.Controllers
             _blossomService = blossomService;
             _mapper = mapper;
         }
-
         public async Task <IActionResult> Index(int pageNumber=1)
         {
             List<BlossomDto> blossomList = new();
@@ -39,16 +38,15 @@ namespace Blossom_Web.Controllers
                 {
                     BlossomList = blossomList,
                     PageNumber = pageNumber,
-                    TotaPages = JsonConvert.DeserializeObject<int>(Convert.ToString(response.TotalPages))
+                    TotalPages = JsonConvert.DeserializeObject<int>(Convert.ToString(response.TotalPages))
                 };
 
                 if (pageNumber > 1) blossomVM.Previous = "";
-                if (blossomVM.TotaPages <= pageNumber) blossomVM.Next = "disabled";
+                if (blossomVM.TotalPages <= pageNumber) blossomVM.Next = "disabled";
             
             }
             return View(blossomVM);
         }
-
         public IActionResult Privacy()
         {
             return View();
