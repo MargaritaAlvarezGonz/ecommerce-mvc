@@ -35,7 +35,7 @@ namespace Blosom_API2.Controllers.V1
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles ="admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetNumberBlossom()
         {
@@ -80,7 +80,7 @@ namespace Blosom_API2.Controllers.V1
 
 
         [HttpGet("{id:int}", Name = "GetBlossomProduct")]
-        [Authorize]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -122,7 +122,7 @@ namespace Blosom_API2.Controllers.V1
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -175,7 +175,7 @@ namespace Blosom_API2.Controllers.V1
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteNumberProduct(int id)
         {
             try
@@ -209,7 +209,7 @@ namespace Blosom_API2.Controllers.V1
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateNumberProduct(int id, [FromBody] NumberBlossomUpdateDto updateDto)
@@ -235,7 +235,7 @@ namespace Blosom_API2.Controllers.V1
         }
 
         [HttpPatch("{id:int}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdatePartialProduct(int id, JsonPatchDocument<BlossomUpdateDto> patchDto)

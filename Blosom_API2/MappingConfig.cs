@@ -19,6 +19,9 @@ namespace Blosom_API2
             CreateMap<NumberBlossom, NumberBlossomDto>().ReverseMap();
             CreateMap<NumberBlossom, NumberBlossomCreateDto>().ReverseMap();
             CreateMap<NumberBlossom, NumberBlossomUpdateDto>().ReverseMap();
+
+            CreateMap<UserAplication, UserDto>().ReverseMap();
+
         }
     }
 }

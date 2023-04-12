@@ -9,6 +9,6 @@ namespace Blosom_API2.Repository.IRepository
         bool IsUniqueUser(string userName);
 
         Task<LoginResponseDTO> Login (LoginRequestDTO loginRequestDTO);
-        Task<User> Register(RegistroRequestDTO registroRequestDTO);
+        Task<UserDto> Register(RegistroRequestDTO registroRequestDTO);
     }
 }

@@ -1,9 +1,11 @@
 
 using Blosom_API2;
 using Blosom_API2.Data;
+using Blosom_API2.Models;
 using Blosom_API2.Repository;
 using Blosom_API2.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -46,7 +48,7 @@ options.SwaggerDoc("v1", new OpenApiInfo
 {
     Version = "v1",
     Title = "Blossom v1",
-    Description= "API para Karessi"
+    Description= "API Blossom"
 });
 
 });
@@ -74,6 +76,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddIdentity<UserAplication, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>(); 
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 

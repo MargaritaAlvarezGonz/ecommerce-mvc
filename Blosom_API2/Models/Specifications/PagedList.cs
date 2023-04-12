@@ -2,13 +2,13 @@
 {
     public class PagedList<T> : List<T>
     {
-        public MetaData MetaData { get; set; }
+        public Metadata MetaData { get; set; }
         public PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
-            MetaData = new MetaData
+            MetaData = new Metadata
             {
                 TotalCount = count,
-                PageSize = pageSize,
+                PagesSize = pageSize,
                 TotalPages = (int)Math.Ceiling(count / (double)pageSize)
             };
             AddRange(items);

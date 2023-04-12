@@ -6,10 +6,12 @@ using Blosom_API2.Repository.IRepository;
 using Blossom_API.Data;
 using Blossom_API.Models;
 using Blossom_API.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Net;
 
 namespace Blosom_API2.Controllers
@@ -31,6 +33,7 @@ namespace Blosom_API2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetBlossom()
         {
@@ -75,6 +78,7 @@ namespace Blosom_API2.Controllers
 
 
         [HttpGet("{id:int}", Name = "GetNumberBlossomProduct")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -116,6 +120,7 @@ namespace Blosom_API2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -158,6 +163,7 @@ namespace Blosom_API2.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -194,6 +200,7 @@ namespace Blosom_API2.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] BlossomUpdateDto updateDto)
